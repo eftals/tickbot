@@ -2,7 +2,6 @@ import string
 import yfinance as yf
 
 import trafilatura
-import ollama
 
 
 def fetch_yahoo_news(ticker: string) -> list[dict]:
@@ -16,31 +15,14 @@ def fetch_yahoo_news(ticker: string) -> list[dict]:
         out.append(it)
     return out
 
-def extract_article(news_data: dict):
-    headers = {
-        "User-Agent": (
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-            "AppleWebKit/537.36 (KHTML, like Gecko) "
-            "Chrome/126.0.0 Safari/537.36"
-        )
-    }
+def extract_article(news_data: dict) -> None:
     url = news_data["canonicalUrl"]
     html = trafilatura.fetch_url(url["url"])
     article = trafilatura.extract(html)
     news_data["article"] = article
 
 
-def __main__() -> None:
-    news = fetch_yahoo_news("AAPL")
-    for item in news:
-        extract_article(item)
-        for k, v in item.items():
-            print(f"{k}: {v}")
-            if k == "article":
-                r = ollama.chat(model="llama3.1:8b-instruct-q4_K_M",
-                                messages=[{"role": "user", "content": f"Summarize this article: {v}"}])
-                print(r["message"]["content"])
-
-
-
-__main__()
+def process_ticker(ticker: string) -> list[dict]:
+    news = fetch_yahoo_news(ticker)
+    [extract_article(news_data) for news_data in news]
+    return news

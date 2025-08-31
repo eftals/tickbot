@@ -1,0 +1,3 @@
+.gitignore
+**pycache**
+qdrant_storage
