@@ -39,7 +39,7 @@ if errorlevel 1 (
 
 pip install -r requirements.txt
 
-echo Smoke test: embedding
+echo Smoke test: ollama
 curl -s %OLLAMA_URL%/api/embeddings -H "Content-Type: application/json" -d "{\"model\":\"nomic-embed-text\",\"prompt\":\"hello world\"}" >nul
 if errorlevel 1 (
   echo [WARN] Embedding smoke test failed.

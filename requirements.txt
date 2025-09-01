@@ -5,3 +5,5 @@ beautifulsoup4~=4.13.5
 lxml~=5.4.0
 trafilatura~=1.12.2
 ollama~=0.5.3
+qdrant-client~=1.15.1
+transformers~=4.56.0
